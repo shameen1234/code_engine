@@ -7,7 +7,7 @@ TEMP_DIR = "temp"
 os.makedirs(TEMP_DIR, exist_ok=True)
  
  
-def execute_code(language, code):
+def execute_code(language, code, input_data=""):
     file_id = str(uuid.uuid4())
  
     try:
@@ -19,9 +19,10 @@ def execute_code(language, code):
  
             result = subprocess.run(
                 ["python", file_path],
+                input=input_data,
                 capture_output=True,
                 text=True,
-                timeout=3
+                timeout=5
             )
  
         elif language == "cpp":
@@ -31,21 +32,22 @@ def execute_code(language, code):
             with open(cpp_file, "w") as f:
                 f.write(code)
  
-            compile = subprocess.run(
+            compile_process = subprocess.run(
                 ["g++", cpp_file, "-o", exe_file],
                 capture_output=True,
                 text=True,
-                timeout=5
+                timeout=10
             )
  
-            if compile.returncode != 0:
-                return compile.stderr
+            if compile_process.returncode != 0:
+                return compile_process.stderr
  
             result = subprocess.run(
                 [exe_file],
+                input=input_data,
                 capture_output=True,
                 text=True,
-                timeout=3
+                timeout=5
             )
  
         elif language == "javascript":
@@ -56,13 +58,14 @@ def execute_code(language, code):
  
             result = subprocess.run(
                 ["node", js_file],
+                input=input_data,
                 capture_output=True,
                 text=True,
-                timeout=3
+                timeout=5
             )
  
         else:
-            return "Unsupported language"
+            return "Unsupported Language"
  
         if result.returncode == 0:
             return result.stdout
