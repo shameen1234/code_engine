@@ -3,28 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Execution Engine</title>
+    <title>Code Runner Studio</title>
+    <!-- Google Fonts for professional look -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;600;700&display=swap%22 rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
  
-    <div class="container">
-        <h1>Multi-Language Code Execution Engine</h1>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">{}</div>
+            </div>
+            <nav>
+                <div class="nav-item active" title="Editor"><span>📝</span></div>
+                <div class="nav-item" title="Files"><span>📁</span></div>
+                <div class="nav-item" title="Settings"><span>⚙️</span></div>
+            </nav>
+        </aside>
  
-        <select id="language">
-            <option value="python">Python</option>
-            <option value="cpp">C++</option>
-            <option value="javascript">JavaScript</option>
-        </select>
+        <!-- Main Content Area -->
+        <main class="main-stage">
+            <header class="top-bar">
+                <div class="file-info">
+                    <span id="current-filename">main.py</span>
+                </div>
+               
+                <div class="controls">
+                    <select id="language" class="lang-select">
+                        <option value="python">Python 3.11</option>
+                        <option value="cpp">C++ 17</option>
+                        <option value="javascript">Node.js</option>
+                    </select>
+                    <button class="run-btn" onclick="runCode()">
+                        <span class="icon">▶</span> RUN
+                    </button>
+                </div>
+            </header>
  
-        <textarea id="code" placeholder="Write your code here..."></textarea>
+            <div class="editor-workspace">
+                <!-- Editor Section -->
+                <div class="editor-container">
+                    <div class="line-numbers" id="line-numbers"></div>
+                    <textarea id="code" spellcheck="false" placeholder="Write your code here...">def hello_world():
+    print("Hello from Code Runner!")
  
-        <textarea id="input_data" placeholder="Enter input here..."></textarea>
+hello_world()</textarea>
+                </div>
  
-        <button onclick="runCode()">Run Code</button>
- 
-        <h2>Output</h2>
-        <pre id="output"></pre>
+                <!-- Input/Output Panel -->
+                <div class="terminal-panel">
+                    <div class="panel-header">
+                        <button class="tab active">Terminal</button>
+                        <button class="tab" id="inputTabBtn">Custom Input</button>
+                    </div>
+                   
+                    <div class="panel-body">
+                        <!-- Terminal Output -->
+                        <div id="output-container" class="output-view">
+                            <pre id="output">System ready. Click RUN to execute...</pre>
+                        </div>
+                       
+                        <!-- Hidden Input Area -->
+                        <textarea id="input_data" class="hidden" placeholder="Enter custom input here..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
  
     <script src="script.js"></script>
